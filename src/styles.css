@@ -1,0 +1,78 @@
+/* Add this to your main CSS file or create a new one if needed */
+
+/* Ensure the viewport is set correctly */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tracking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    flex-grow: 1; /* Allow the container to grow and fill available space */
+}
+
+.current-stop {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tracking-container {
+        padding: 10px;
+    }
+
+    .current-stop {
+        padding: 8px;
+    }
+
+    .back-button {
+        width: 100%;
+        font-size: 14px;
+    }
+} 
+
+.current-stop .sequence-number {
+    font-size: 96px; /* Increase the font size significantly */
+    font-weight: bold;
+    margin: 30px 0; /* Add more margin for spacing */
+    color: #ff0000; /* Optional: Change color to make it more visible */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for better visibility */
+} 

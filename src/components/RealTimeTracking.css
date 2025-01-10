@@ -1,0 +1,62 @@
+.tracking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f0f0f0; /* Example background color */
+    /* Add any other styles you need */
+}
+
+.current-stop {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.sequence-number {
+    font-size: 200px;
+    font-weight: bold;
+    margin: 40px 0;
+    color: #ff0000;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+.bus-stop-info {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #333;
+}
+
+.distance-info {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #333;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+} 
