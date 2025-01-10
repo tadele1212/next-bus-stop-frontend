@@ -20,26 +20,33 @@ function RealTimeTracking() {
                 navigator.geolocation.getCurrentPosition(
                     async (position) => {
                         try {
+                            console.log('Current stop before request:', {
+                                currentStop,
+                                seq: currentStop?.Seq,
+                                lastStopValue: currentStop?.Seq || 0
+                            });
+                            
                             const nearestStop = await busService.getNearestStop(
                                 serviceNo,
                                 position.coords.latitude,
                                 position.coords.longitude,
                                 currentStop?.Seq || 0
                             );
-                            console.log('Database Response:', {
-                                rawResponse: nearestStop,
-                                allKeys: Object.keys(nearestStop),
-                                fullData: nearestStop
-                            });
+                            
+                            console.log('Nearest stop response:', nearestStop);
                             setCurrentStop(nearestStop);
                         } catch (err) {
+                            console.error('Error details:', {
+                                message: err.message,
+                                response: err.response?.data,
+                                status: err.response?.status
+                            });
                             setError("Failed to fetch nearest stop");
-                            console.error(err);
                         }
                     },
                     (err) => {
+                        console.error('Geolocation error:', err);
                         setError("Failed to get location");
-                        console.error(err);
                     }
                 );
             }

@@ -42,10 +42,19 @@ export const busService = {
             service_no: String(serviceNo),
             gx: Number(gx),
             gy: Number(gy),
-            last_stop: lastStop || null
+            last_stop: lastStop !== undefined ? String(lastStop) : null
         };
         
-        console.log('Sending data:', data);
+        console.log('API Request Data:', {
+            raw: {serviceNo, gx, gy, lastStop},
+            processed: data,
+            types: {
+                service_no: typeof data.service_no,
+                gx: typeof data.gx,
+                gy: typeof data.gy,
+                last_stop: typeof data.last_stop
+            }
+        });
         
         const response = await axiosInstance.post('/nearest_stop', data);
         return response.data;
