@@ -38,12 +38,16 @@ export const busService = {
     },
 
     async getNearestStop(serviceNo, gx, gy, lastStop) {
-        const response = await axiosInstance.post('/nearest_stop', {
-            service_no: serviceNo,
-            gx,
-            gy,
-            last_stop: lastStop
-        });
+        const data = {
+            service_no: String(serviceNo),
+            gx: Number(gx),
+            gy: Number(gy),
+            last_stop: lastStop || null
+        };
+        
+        console.log('Sending data:', data);
+        
+        const response = await axiosInstance.post('/nearest_stop', data);
         return response.data;
     }
 }; 
