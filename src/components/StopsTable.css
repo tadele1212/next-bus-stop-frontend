@@ -11,7 +11,7 @@
     padding: 15px;
     background-color: #f0f0f0;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -26,6 +26,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     flex: 1;
+    max-height: calc(100vh - 120px);
 }
 
 /* Table styles */
@@ -130,6 +131,10 @@
     .stops-table td:nth-child(3) {
         width: 20%;
     }
+
+    .table-wrapper {
+        max-height: calc(100vh - 100px);
+    }
 }
 
 /* Small screen adjustments */
@@ -143,5 +148,9 @@
     .start-tracking-btn {
         width: 95%;
         margin: 10px auto;
+    }
+
+    .table-wrapper {
+        max-height: calc(100vh - 90px);
     }
 } 
