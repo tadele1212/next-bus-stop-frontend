@@ -26,7 +26,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     flex: 1;
-    max-height: calc(100vh - 120px);
+    max-height: calc(100vh - 180px);
 }
 
 /* Table styles */
@@ -90,6 +90,8 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+    position: relative;
+    z-index: 2;
 }
 
 .start-tracking-btn:hover {
@@ -133,7 +135,7 @@
     }
 
     .table-wrapper {
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 160px);
     }
 }
 
@@ -151,6 +153,6 @@
     }
 
     .table-wrapper {
-        max-height: calc(100vh - 90px);
+        max-height: calc(100vh - 140px);
     }
 } 
