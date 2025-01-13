@@ -1,68 +1,74 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { busService } from '../services/api';
 import './StopsTable.css';
+import './LoadingSpinner.css';
 
-function StopsTable() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const { stops, serviceNo } = location.state || { stops: [], serviceNo: '' };
+function StopsTable({ serviceNo, currentStopSeq, onClose }) {
+    const [stops, setStops] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    // Redirect to home if no serviceNo
-    React.useEffect(() => {
-        if (!serviceNo) {
-            navigate('/');
-        }
-    }, [serviceNo, navigate]);
+    useEffect(() => {
+        const fetchStops = async () => {
+            try {
+                setLoading(true);
+                const stopsData = await busService.getStops(serviceNo);
+                setStops(stopsData);
+            } catch (err) {
+                setError('Failed to load stops');
+                console.error('Error fetching stops:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const handleStartTracking = () => {
-        navigate('/tracking', { state: { serviceNo } });
-    };
+        fetchStops();
+    }, [serviceNo]);
 
-    const handleBack = () => {
-        navigate('/');
-    };
-
-    // Show loading or redirect instead of error
-    if (!stops || !stops.length) {
-        return (
-            <div className="stops-table-container">
-                <button onClick={handleBack} className="back-button">
-                    Back to Service Input
-                </button>
-                <div className="no-stops">No stops found</div>
-            </div>
-        );
-    }
+    if (error) return <div className="error">{error}</div>;
 
     return (
         <div className="stops-table-container">
-            <button onClick={handleBack} className="back-button">
-                Back to Service Input
-            </button>
-            <h2>Bus Service {serviceNo} Stops</h2>
             <div className="table-wrapper">
-                <table className="stops-table">
-                    <thead>
-                        <tr>
-                            <th>Sequence</th>
-                            <th>Road Name</th>
-                            <th>Distance (km)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {stops.map((stop) => (
-                            <tr key={stop.Seq}>
-                                <td>{stop.Seq}</td>
-                                <td>{stop.Bus_Stop}</td>
-                                <td>{stop.KM.toFixed(2)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="table-header">
+                    <button onClick={onClose} className="close-button">
+                        Close
+                    </button>
+                    <h2>Bus Service {serviceNo} Route</h2>
+                </div>
+                
+                <div className="table-content">
+                    {loading ? (
+                        <div className="spinner-container">
+                            <div className="spinner"></div>
+                        </div>
+                    ) : stops.length > 0 ? (
+                        <table className="stops-table">
+                            <thead>
+                                <tr>
+                                    <th>Seq</th>
+                                    <th>Bus Stop</th>
+                                    <th>Distance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {stops.map(stop => (
+                                    <tr 
+                                        key={stop.Seq}
+                                        className={stop.Seq === currentStopSeq ? 'current-stop-row' : ''}
+                                    >
+                                        <td>{stop.Seq}</td>
+                                        <td>{stop.Bus_Stop}</td>
+                                        <td>{stop.KM.toFixed(2)} km</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <div className="no-stops">No stops available</div>
+                    )}
+                </div>
             </div>
-            <button onClick={handleStartTracking} className="start-tracking-btn">
-                Start Real-time Tracking
-            </button>
         </div>
     );
 }

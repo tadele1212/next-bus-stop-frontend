@@ -5,22 +5,56 @@
     justify-content: flex-start;
     min-height: 100vh;
     width: 100%;
-    padding: 10px;
+    padding: 20px;
     box-sizing: border-box;
     background-color: #f0f0f0;
-    overflow-x: hidden;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    overflow: hidden;
+}
+
+.quit-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: min(16px, 3vh);
+    z-index: 100;
+}
+
+.view-route-button {
+    width: 90%;
+    max-width: 300px;
+    padding: 12px;
+    margin: 15px 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: min(16px, 3vh);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+    z-index: 100;
+}
+
+.view-route-button:hover {
+    background-color: #0056b3;
 }
 
 .current-stop {
     width: 90%;
     max-width: min(90%, 600px);
     padding: 15px;
-    margin: 20px auto;
+    margin: 10px auto;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -28,7 +62,7 @@
 }
 
 .sequence-number {
-    font-size: 120px;
+    font-size: min(120px, 15vh);
     font-weight: bold;
     margin: 20px 0;
     color: #ff0000;
@@ -37,7 +71,7 @@
 }
 
 .bus-stop-info {
-    font-size: 24px;
+    font-size: min(24px, 4vh);
     font-weight: bold;
     margin: 10px 0;
     color: #333;
@@ -46,7 +80,7 @@
 }
 
 .distance-info {
-    font-size: 24px;
+    font-size: min(24px, 4vh);
     font-weight: bold;
     margin: 10px 0;
     color: #333;
@@ -70,31 +104,43 @@
     background-color: #0056b3;
 }
 
+/* Spinner adjustments */
+.spinner-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Media queries for different screen sizes */
 @media screen and (max-height: 600px) {
-    .sequence-number {
-        font-size: 80px;
-        margin: 10px 0;
-    }
-}
-
-@media screen and (max-width: 320px) {
-    .sequence-number {
-        font-size: 80px;
-    }
-
-    .bus-stop-info,
-    .distance-info {
-        font-size: 18px;
-    }
-}
-
-@media screen and (orientation: landscape) and (max-height: 500px) {
-    .sequence-number {
-        font-size: 60px;
-        margin: 10px 0;
-    }
-
-    .current-stop {
+    .tracking-container {
         padding: 10px;
     }
+    
+    .current-stop {
+        padding: 10px;
+        margin: 10px auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .quit-button {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+    }
+}
+
+.service-number {
+    color: #007bff;
+    font-size: min(24px, 4vh);
+    margin: 0 0 10px 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Update main title margin */
+.tracking-container h2 {
+    margin: 10px 0 5px 0;
 } 

@@ -5,28 +5,42 @@
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    padding: 15px;
-    background-color: #f0f0f0;
-    box-sizing: border-box;
-    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 /* Table wrapper styles */
 .table-wrapper {
-    width: 100%;
-    max-width: 800px;
-    margin: 10px auto;
-    background-color: white;
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 95%;
+    max-width: 800px;
+    max-height: 80vh;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fixed header section */
+.table-header {
+    position: sticky;
+    top: 0;
+    padding: 20px;
+    background: white;
+    border-radius: 8px 8px 0 0;
+    z-index: 2;
+    border-bottom: 1px solid #eee;
+}
+
+/* Scrollable content section */
+.table-content {
     overflow-y: auto;
+    padding: 0 20px 20px 20px;
     flex: 1;
-    max-height: calc(100vh - 180px);
 }
 
 /* Table styles */
@@ -42,25 +56,26 @@
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: break-word;
 }
 
 /* Column widths */
 .stops-table th:nth-child(1),
 .stops-table td:nth-child(1) {
     width: 15%;
+    min-width: 50px;
 }
 
 .stops-table th:nth-child(2),
 .stops-table td:nth-child(2) {
     width: 70%;
+    min-width: 200px;
 }
 
 .stops-table th:nth-child(3),
 .stops-table td:nth-child(3) {
     width: 15%;
+    min-width: 80px;
 }
 
 /* Header styles */
@@ -155,4 +170,40 @@
     .table-wrapper {
         max-height: calc(100vh - 140px);
     }
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* Highlight current stop */
+.current-stop-row {
+    background-color: #e3f2fd;
+    font-weight: bold;
+}
+
+/* Make table wrapper scrollable */
+.table-wrapper {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px;
+    width: 95%;
+    max-width: 800px;
+}
+
+/* Make table header sticky */
+.stops-table thead th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
 } 
