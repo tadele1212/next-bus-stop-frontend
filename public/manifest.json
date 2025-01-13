@@ -1,0 +1,17 @@
+{
+  "name": "Next Bus Stop",
+  "short_name": "Next Stop",
+  "description": "Real-time bus stop tracking application",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+} 

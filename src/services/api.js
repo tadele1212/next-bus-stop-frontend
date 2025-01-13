@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// Update this to your deployed backend URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://render-test-dc5j.onrender.com/api';
 
 const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
@@ -29,12 +30,61 @@ axiosInstance.interceptors.response.use(
     }
 );
 
+// Improved offline cache functions
+const cacheResponse = async (key, data) => {
+    try {
+        const timestamp = new Date().getTime();
+        const cacheData = {
+            data,
+            timestamp,
+            version: '1.0'
+        };
+        localStorage.setItem(key, JSON.stringify(cacheData));
+        console.log(`Data cached for ${key}`);
+    } catch (error) {
+        console.error('Error caching data:', error);
+    }
+};
+
+const getCachedResponse = (key) => {
+    try {
+        const cached = localStorage.getItem(key);
+        if (!cached) return null;
+
+        const { data, timestamp, version } = JSON.parse(cached);
+        
+        // Cache expires after 24 hours
+        const now = new Date().getTime();
+        const cacheAge = now - timestamp;
+        if (cacheAge > 24 * 60 * 60 * 1000) {
+            localStorage.removeItem(key);
+            return null;
+        }
+
+        console.log(`Using cached data for ${key}`);
+        return data;
+    } catch {
+        return null;
+    }
+};
+
 export const busService = {
     async getStops(serviceNo) {
-        const response = await axiosInstance.post('/show_stop', {
-            service_no: serviceNo
-        });
-        return response.data.stops;
+        try {
+            const response = await axiosInstance.post('/show_stop', {
+                service_no: serviceNo
+            });
+            await cacheResponse(`stops-${serviceNo}`, response.data.stops);
+            return response.data.stops;
+        } catch (error) {
+            console.log('Network error, trying cache...');
+            const cachedData = getCachedResponse(`stops-${serviceNo}`);
+            if (cachedData) {
+                console.log('Using cached data');
+                return cachedData;
+            }
+            throw error;
+        }
     },
 
     async getNearestStop(serviceNo, gx, gy, lastStop) {
@@ -44,19 +94,20 @@ export const busService = {
             gy: Number(gy),
             last_stop: lastStop !== undefined ? String(lastStop) : null
         };
-        
-        console.log('API Request Data:', {
-            raw: {serviceNo, gx, gy, lastStop},
-            processed: data,
-            types: {
-                service_no: typeof data.service_no,
-                gx: typeof data.gx,
-                gy: typeof data.gy,
-                last_stop: typeof data.last_stop
-            }
-        });
-        
-        const response = await axiosInstance.post('/nearest_stop', data);
-        return response.data;
+
+        try {
+            const response = await axiosInstance.post('/nearest_stop', data);
+            // Cache the last known position
+            await cacheResponse(`last-position-${serviceNo}`, {
+                gx,
+                gy,
+                lastStop,
+                timestamp: new Date().getTime()
+            });
+            return response.data;
+        } catch (error) {
+            console.log('Network error in getNearestStop');
+            throw error;
+        }
     }
 }; 
