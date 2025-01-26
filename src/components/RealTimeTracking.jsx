@@ -89,7 +89,7 @@ function RealTimeTracking() {
             ) : currentStop ? (
                 <div className="current-stop">
                     <h3>Next Stop</h3>
-                    <p className="bus-stop-info">{currentStop.Bus_Stop}</p>
+                    <p className="bus-stop-info">{currentStop['Bus Stop']}</p>
                     <p className="sequence-number">{currentStop.Seq}</p>
                     <p className="distance-info">Distance: {currentStop.KM.toFixed(2)} km</p>
                 </div>
